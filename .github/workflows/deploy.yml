@@ -18,8 +18,8 @@ jobs:
       - run: npm run build
       - name: Set git user
         run: |
-          git config --global tatsuya.yagi.toymoy@gmail.com "github-actions[bot]@users.noreply.github.com"
-          git config --global ToyMoy-Pattoiku "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
       - name: Deploy
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
