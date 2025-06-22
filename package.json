@@ -7,28 +7,23 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "dependencies": {
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
     "recharts": "^2.1.9",
     "lucide-react": "^0.268.0"
   },
   "devDependencies": {
-    "typescript": "^4.4.4",
-    "react-scripts": "4.0.3"
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "typescript": "^4.9.5",
+    "react-scripts": "^5.0.1",
+    "gh-pages": "^6.0.0"
   },
   "homepage": "https://ToyMoy-Pattoiku.github.io/disaster-preparedness-dashboard/",
-  "license": "MIT",
-  "hazardData": {
-    "low": { "days": 3, "waterPerDay": 2, "riskColor": "green" },
-    "medium": { "days": 5, "waterPerDay": 3, "riskColor": "yellow" },
-    "high": { "days": 7, "waterPerDay": 4, "riskColor": "orange" },
-    "critical": { "days": 10, "waterPerDay": 5, "riskColor": "red" }
-  },
-  "riskLevel": "low",
-  "calculations": {
-    "useMemo": "const hazardData: Record<'low' | 'medium' | 'high' | 'critical', { days: number; waterPerDay: number; riskColor: string }> = {\n  low: { days: 3, waterPerDay: 2, riskColor: 'green' },\n  medium: { days: 5, waterPerDay: 3, riskColor: 'yellow' },\n  high: { days: 7, waterPerDay: 4, riskColor: 'orange' },\n  critical: { days: 10, waterPerDay: 5, riskColor: 'red' },\n};\n\nconst riskLevel: 'low' | 'medium' | 'high' | 'critical' = 'low'; // 例\n\nconst calculations = useMemo(() => {\n  const hazard = hazardData[riskLevel]; // 型安全にアクセス可能\n  const locationInfo = locationRisk[location]; // locationRiskも型定義を確認\n\n  const totalWaterNeeded = employeeCount * hazard.waterPerDay * hazard.days * locationInfo.multiplier;\n  return { totalWaterNeeded, riskColor: hazard.riskColor };\n}, [riskLevel, location, employeeCount]);"
-  }
+  "license": "MIT"
 }
