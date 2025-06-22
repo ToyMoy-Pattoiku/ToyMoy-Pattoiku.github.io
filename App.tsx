@@ -1,13 +1,13 @@
 import React from 'react';
-// Update the import path below if the file is located elsewhere, for example:
+// Update the import path below to the correct relative path where disaster-preparedness-dashboard.tsx exists
 import DisasterPreparednessCalculator from './disaster-preparedness-dashboard';
-// Or, if the folder name or file name is different, correct it accordingly.
-// import DisasterPreparednessCalculator from './correct-folder/correct-file';
 
 function App() {
   return (
     <DisasterPreparednessCalculator />
   );
+}
+export default App;
 }
 
 export default App;
