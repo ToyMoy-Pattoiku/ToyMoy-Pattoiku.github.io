@@ -1,17 +1,18 @@
 import React, { useState, useMemo } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts';
 import { AlertTriangle, Droplets, Calendar, Users, MapPin } from 'lucide-react';
+import { RiskLevel, HazardData } from './types';
 
 const DisasterPreparednessCalculator = () => {
   const [employeeCount, setEmployeeCount] = useState(100);
-  const [riskLevel, setRiskLevel] = useState('high');
+  const [riskLevel, setRiskLevel] = useState<RiskLevel>('low');
   const [location, setLocation] = useState('tokyo');
 
-  const hazardData = {
-    low: { days: 3, waterPerDay: 3, riskColor: '#22c55e' },
-    medium: { days: 5, waterPerDay: 3, riskColor: '#f59e0b' },
-    high: { days: 7, waterPerDay: 3, riskColor: '#ef4444' },
-    critical: { days: 10, waterPerDay: 4, riskColor: '#dc2626' }
+  const hazardData: HazardData = {
+    low: { days: 3, waterPerDay: 2, riskColor: 'green' },
+    medium: { days: 5, waterPerDay: 3, riskColor: 'yellow' },
+    high: { days: 7, waterPerDay: 4, riskColor: 'orange' },
+    critical: { days: 10, waterPerDay: 5, riskColor: 'red' }
   };
 
   const locationRisk = {
