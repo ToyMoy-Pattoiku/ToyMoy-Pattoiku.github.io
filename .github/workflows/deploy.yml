@@ -10,31 +10,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: '16'
-
-      - name: Install dependencies
+          node-version: '18'
+      - run: npm install
+      - run: npm run build
+      - name: Deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          npm install
-          npm install react@^18.0.0 react-dom@^18.0.0 recharts@^2.1.9 lucide-react@^0.268.0 typescript@^4.4.4 react-scripts@^5.0.1
-          npm install --save-dev @types/react @types/react-dom
-          npm install gh-pages
-
-      - name: Build the project
-        run: npm run build
-
-      - name: Add .nojekyll file
-        run: touch build/.nojekyll
-
-      - name: Set git user
-        run: |
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
-
-      - name: Deploy to GitHub Pages
-        run: npm run deploy
+          npx gh-pages -d build -r https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git

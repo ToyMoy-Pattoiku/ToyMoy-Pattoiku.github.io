@@ -9,7 +9,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build -r https://x-access-token:${GITHUB_TOKEN}@github.com/${npm_package_repository_url}.git"
   },
   "dependencies": {
     "react": "^18.0.0",
