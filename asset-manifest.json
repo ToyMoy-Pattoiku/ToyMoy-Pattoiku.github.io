@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/disaster-preparedness-dashboard/static/css/main.b766fec6.css",
+    "main.js": "/disaster-preparedness-dashboard/static/js/main.25c17551.js",
+    "index.html": "/disaster-preparedness-dashboard/index.html",
+    "main.b766fec6.css.map": "/disaster-preparedness-dashboard/static/css/main.b766fec6.css.map",
+    "main.25c17551.js.map": "/disaster-preparedness-dashboard/static/js/main.25c17551.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b766fec6.css",
+    "static/js/main.25c17551.js"
+  ]
+}
