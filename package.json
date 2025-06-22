@@ -29,6 +29,6 @@
   },
   "riskLevel": "low",
   "calculations": {
-    "useMemo": "const calculations = useMemo(() => {\n  const hazard = hazardData[riskLevel]; // 型安全にアクセス可能\n  const locationInfo = locationRisk[location]; // locationRiskも型定義を確認\n\n  const totalWaterNeeded = employeeCount * hazard.waterPerDay * hazard.days * locationInfo.multiplier;\n  return { totalWaterNeeded, riskColor: hazard.riskColor };\n}, [riskLevel, location, employeeCount]);"
+    "useMemo": "const hazardData: Record<'low' | 'medium' | 'high' | 'critical', { days: number; waterPerDay: number; riskColor: string }> = {\n  low: { days: 3, waterPerDay: 2, riskColor: 'green' },\n  medium: { days: 5, waterPerDay: 3, riskColor: 'yellow' },\n  high: { days: 7, waterPerDay: 4, riskColor: 'orange' },\n  critical: { days: 10, waterPerDay: 5, riskColor: 'red' },\n};\n\nconst riskLevel: 'low' | 'medium' | 'high' | 'critical' = 'low'; // 例\n\nconst calculations = useMemo(() => {\n  const hazard = hazardData[riskLevel]; // 型安全にアクセス可能\n  const locationInfo = locationRisk[location]; // locationRiskも型定義を確認\n\n  const totalWaterNeeded = employeeCount * hazard.waterPerDay * hazard.days * locationInfo.multiplier;\n  return { totalWaterNeeded, riskColor: hazard.riskColor };\n}, [riskLevel, location, employeeCount]);"
   }
 }
