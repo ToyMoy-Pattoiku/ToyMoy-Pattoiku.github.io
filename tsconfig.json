@@ -16,5 +16,21 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src"]
+  "include": ["src"],
+  "typeRoots": ["./node_modules/@types", "./src/types"],
+  "types": ["vite/client"]
 }
+
+// locationの型もLocationKeyにする
+const [location, setLocation] = useState<LocationKey>('tokyo');
+
+// 以降、locationRisk[location]で型エラーが出なくなります
+
+type LocationKey = 'tokyo' | 'osaka' | 'sendai' | 'fukuoka';
+
+const locationRisk: Record<LocationKey, { baseRisk: string; multiplier: number; name: string }> = {
+  tokyo:   { baseRisk: 'high', multiplier: 1.2, name: '東京' },
+  osaka:   { baseRisk: 'medium', multiplier: 1.1, name: '大阪' },
+  sendai:  { baseRisk: 'critical', multiplier: 1.3, name: '仙台' },
+  fukuoka: { baseRisk: 'low', multiplier: 1.0, name: '福岡' }
+};
