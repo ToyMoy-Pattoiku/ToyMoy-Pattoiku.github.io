@@ -20,5 +20,15 @@
     "react-scripts": "4.0.3"
   },
   "homepage": "https://ToyMoy-Pattoiku.github.io/disaster-preparedness-dashboard/",
-  "license": "MIT"
+  "license": "MIT",
+  "hazardData": {
+    "low": { "days": 3, "waterPerDay": 2, "riskColor": "green" },
+    "medium": { "days": 5, "waterPerDay": 3, "riskColor": "yellow" },
+    "high": { "days": 7, "waterPerDay": 4, "riskColor": "orange" },
+    "critical": { "days": 10, "waterPerDay": 5, "riskColor": "red" }
+  },
+  "riskLevel": "low",
+  "calculations": {
+    "useMemo": "const calculations = useMemo(() => {\n  const hazard = hazardData[riskLevel]; // 型安全にアクセス可能\n  const locationInfo = locationRisk[location]; // locationRiskも型定義を確認\n\n  const totalWaterNeeded = employeeCount * hazard.waterPerDay * hazard.days * locationInfo.multiplier;\n  return { totalWaterNeeded, riskColor: hazard.riskColor };\n}, [riskLevel, location, employeeCount]);"
+  }
 }
