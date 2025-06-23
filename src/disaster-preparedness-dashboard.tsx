@@ -81,14 +81,16 @@ const DisasterPreparednessCalculator = () => {
   });
 
   // グラフ用データ（現在の数量を反映）
+  const recommendedWater = Math.ceil(calculations.totalWater * 1.2);
+  const recommendedFood = Math.ceil(calculations.totalFood * 1.1);
   const comparisonData = [
-    { category: '水（L）', current: currentWater, recommended: Math.ceil(calculations.totalWater * 1.2) },
-    { category: '食料（食）', current: currentFood, recommended: Math.ceil(calculations.totalFood * 1.1) }
+    { category: '水（L）', current: currentWater, recommended: recommendedWater },
+    { category: '食料（食）', current: currentFood, recommended: recommendedFood }
   ];
 
-  // 判定ロジック
-  const waterOk = currentWater >= Math.ceil(calculations.totalWater * 1.2);
-  const foodOk = currentFood >= Math.ceil(calculations.totalFood * 1.1);
+  // 判定ロジック（現在数量と推奨数量で判定）
+  const waterOk = currentWater >= recommendedWater;
+  const foodOk = currentFood >= recommendedFood;
 
   let statusClass = '';
   let statusContent = '';
@@ -115,18 +117,18 @@ const DisasterPreparednessCalculator = () => {
             </h1>
             <p className="text-gray-600">ハザードマップを参考にした企業向け備蓄計画システム</p>
           </div>
-          <div className="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center justify-center">
+          <div className="bg-white rounded-lg shadow-lg p-4 md:p-3 flex flex-col items-center justify-center w-full md:max-w-xs mx-auto">
+            <div className="mt-2 text-gray-600 text-lg">備蓄判定</div>
             <span
               className={`text-7xl font-bold ${statusClass} select-none`}
               aria-label="備蓄判定"
             >
               {statusContent}
             </span>
-            <div className="mt-2 text-gray-600 text-lg">備蓄判定</div>
-            <div className="mt-1 text-sm text-gray-500">
-              〇: 水・食料とも推奨数量以上<br />
-              △: どちらか一方のみ推奨数量以上<br />
-              ×: 両方とも未満
+            <div className="mt-1 text-sm text-gray-500 text-center">
+              〇：飲料水と非常食の両方が推奨数量を満たしています<br />
+              △：飲料水または非常食のどちらかが推奨数量を満たしています<br />
+              ×：飲料水も非常食も推奨数量を満たしていません
             </div>
           </div>
         </div>
