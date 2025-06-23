@@ -110,16 +110,66 @@ const DisasterPreparednessCalculator = () => {
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-7xl mx-auto">
-        {/* ヘッダー＋判定タイル */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-          <div className="bg-white rounded-lg shadow-lg p-6 flex flex-col justify-center md:col-span-2">
-            <h1 className="text-3xl font-bold text-gray-800 mb-2 flex items-center gap-3">
-              <AlertTriangle className="text-red-500" />
-              災害備蓄計画ダッシュボード
-            </h1>
-            <p className="text-gray-600">ハザードマップを参考にした企業向け備蓄計画システム</p>
+        {/* ヘッダー */}
+        <div className="bg-white rounded-lg shadow-lg p-6 mb-6 flex flex-col justify-center">
+          <h1 className="text-3xl font-bold text-gray-800 mb-2 flex items-center gap-3">
+            <AlertTriangle className="text-red-500" />
+            災害備蓄計画ダッシュボード
+          </h1>
+          <p className="text-gray-600">ハザードマップを参考にした企業向け備蓄計画システム</p>
+        </div>
+
+        {/* 入力パネル＋備蓄判定タイル */}
+        <div className="flex flex-col md:flex-row gap-6 mb-6">
+          {/* 入力パネル（左） */}
+          <div className="bg-white rounded-lg shadow-lg p-6 flex-1">
+            <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+              <Users className="text-blue-500" />
+              基本情報入力
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">社員数</label>
+                <input
+                  type="number"
+                  value={employeeCount}
+                  onChange={(e) => setEmployeeCount(parseInt(e.target.value) || 0)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  min={1}
+                  max={10000}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">地域選択</label>
+                <select
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value as LocationKey)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="tokyo">東京都</option>
+                  <option value="osaka">大阪府</option>
+                  <option value="aichi">愛知県</option>
+                  <option value="sendai">仙台市</option>
+                  <option value="fukuoka">福岡市</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">リスクレベル</label>
+                <select
+                  value={riskLevel}
+                  onChange={(e) => setRiskLevel(e.target.value as RiskLevel)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="low">低リスク</option>
+                  <option value="medium">中リスク</option>
+                  <option value="high">高リスク</option>
+                  <option value="critical">最高リスク</option>
+                </select>
+              </div>
+            </div>
           </div>
-          <div className="bg-white rounded-lg shadow-lg p-4 md:p-3 flex flex-col items-center justify-center w-full md:max-w-xs md:ml-auto">
+          {/* 備蓄判定タイル（右） */}
+          <div className="bg-white rounded-lg shadow-lg p-4 md:p-3 flex flex-col items-center justify-center w-full md:max-w-xs">
             <div className="text-lg font-semibold mb-4">備蓄判定</div>
             <span
               className={`text-7xl font-bold ${statusClass} select-none`}
@@ -131,54 +181,6 @@ const DisasterPreparednessCalculator = () => {
               〇：飲料水と非常食の両方が推奨数量を満たしています<br />
               △：飲料水または非常食のどちらかが推奨数量を満たしています<br />
               ×：飲料水も非常食も推奨数量を満たしていません
-            </div>
-          </div>
-        </div>
-
-        {/* 入力パネル */}
-        <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
-          <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-            <Users className="text-blue-500" />
-            基本情報入力
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">社員数</label>
-              <input
-                type="number"
-                value={employeeCount}
-                onChange={(e) => setEmployeeCount(parseInt(e.target.value) || 0)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                min={1}
-                max={10000}
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">地域選択</label>
-              <select
-                value={location}
-                onChange={(e) => setLocation(e.target.value as LocationKey)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="tokyo">東京都</option>
-                <option value="osaka">大阪府</option>
-                <option value="aichi">愛知県</option>
-                <option value="sendai">仙台市</option>
-                <option value="fukuoka">福岡市</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">リスクレベル</label>
-              <select
-                value={riskLevel}
-                onChange={(e) => setRiskLevel(e.target.value as RiskLevel)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="low">低リスク</option>
-                <option value="medium">中リスク</option>
-                <option value="high">高リスク</option>
-                <option value="critical">最高リスク</option>
-              </select>
             </div>
           </div>
         </div>
