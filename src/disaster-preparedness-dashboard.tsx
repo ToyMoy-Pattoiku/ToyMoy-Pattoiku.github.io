@@ -23,14 +23,17 @@ const DisasterPreparednessCalculator = () => {
   const calculations = useMemo(() => {
     const hazard = hazardData[riskLevel];
     const locationInfo = locationRisk[location];
-    const totalWaterNeeded = employeeCount * hazard.waterPerDay * hazard.days * locationInfo.multiplier;
-    const totalFoodNeeded = employeeCount * hazard.days;
+    const stockpileDays = Math.ceil(hazard.days * locationInfo.multiplier);
+
+    // 地域ごとの備蓄必要日数で必要量を再計算
+    const totalWaterNeeded = employeeCount * hazard.waterPerDay * stockpileDays;
+    const totalFoodNeeded = employeeCount * stockpileDays;
     const emergencyKitNeeded = Math.ceil(employeeCount / 10);
 
     return {
-      stockpileDays: Math.ceil(hazard.days * locationInfo.multiplier),
+      stockpileDays,
       totalWater: Math.ceil(totalWaterNeeded),
-      dailyWater: Math.ceil(employeeCount * hazard.waterPerDay * locationInfo.multiplier),
+      dailyWater: Math.ceil(employeeCount * hazard.waterPerDay),
       totalFood: totalFoodNeeded,
       emergencyKits: emergencyKitNeeded,
       estimatedCost: Math.ceil((totalWaterNeeded * 100 + totalFoodNeeded * 500 + emergencyKitNeeded * 10000) / 1000) * 1000
