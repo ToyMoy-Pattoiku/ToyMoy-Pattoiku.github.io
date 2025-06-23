@@ -69,7 +69,7 @@ const DisasterPreparednessCalculator = () => {
   ];
 
   // 備蓄量から日ごとに減っていくグラフデータ
-  const dailyConsumptionData = Array.from({ length: calculations.stockpileDays }, (_, i) => {
+  const dailyConsumptionData = Array.from({ length: calculations.stockpileDays + 1 }, (_, i) => {
     const day = i + 1;
     const waterLeft = Math.max(calculations.totalWater - calculations.dailyWater * i, 0);
     const foodLeft = Math.max(calculations.totalFood - calculations.dailyFood * i, 0);
@@ -295,10 +295,10 @@ const DisasterPreparednessCalculator = () => {
                     <input
                       type="number"
                       min={0}
-                      className="w-24 px-2 py-1 border border-gray-300 rounded text-right"
+                      className="w-32 px-2 py-1 border border-gray-300 rounded text-right text-sm"
                       value={currentKits}
                       onChange={e => setCurrentKits(Number(e.target.value))}
-                    /> セット
+                    /> <span className="text-sm">セット</span>
                   </td>
                   <td className="py-2 px-4 text-right">{calculations.emergencyKits}セット</td>
                   <td className="py-2 px-4">10人に1セット</td>
