@@ -333,12 +333,11 @@ const DisasterPreparednessCalculator = () => {
                         value={currentKits}
                         onChange={e => setCurrentKits(Number(e.target.value))}
                       />
-                      <span className="inline-block min-w-[2.5rem] text-right">セット</span>
+                      <span>セット</span>
                     </div>
                   </td>
                   <td className="py-2 px-4 text-right">
-                    <span className="inline-block min-w-[2.5rem] text-right">{calculations.emergencyKits}</span>
-                    <span className="ml-1">セット</span>
+                    {calculations.emergencyKits}セット
                   </td>
                   <td className="py-2 px-4">10人に1セット</td>
                 </tr>
