@@ -15,6 +15,10 @@ const DisasterPreparednessCalculator = () => {
   const [riskLevel, setRiskLevel] = useState<RiskLevel>('high');
   const [location, setLocation] = useState<LocationKey>('tokyo');
 
+  // 各品目の現在の数量（初期値は必要数量と同じ）
+  const [currentWater, setCurrentWater] = useState<number>(0);
+  const [currentFood, setCurrentFood] = useState<number>(0);
+
   // 計算結果
   const calculations = useMemo(() => {
     const hazard = hazardData[riskLevel];
@@ -32,6 +36,12 @@ const DisasterPreparednessCalculator = () => {
       estimatedCost: Math.ceil((totalWaterNeeded * 100 + totalFoodNeeded * 500 + emergencyKitNeeded * 10000) / 1000) * 1000
     };
   }, [employeeCount, riskLevel, location]);
+
+  // 必要数量が変わったら現在数量も初期化
+  React.useEffect(() => {
+    setCurrentWater(calculations.totalWater);
+    setCurrentFood(calculations.totalFood);
+  }, [calculations.totalWater, calculations.totalFood]);
 
   // チャート用データ
   const waterDistributionData = [
@@ -52,10 +62,10 @@ const DisasterPreparednessCalculator = () => {
     };
   });
 
+  // グラフ用データ（現在の数量を反映）
   const comparisonData = [
-    { category: '水（L）', current: calculations.totalWater, recommended: Math.ceil(calculations.totalWater * 1.2) },
-    { category: '食料（食）', current: calculations.totalFood, recommended: Math.ceil(calculations.totalFood * 1.1) },
-    { category: '救急セット', current: calculations.emergencyKits, recommended: calculations.emergencyKits }
+    { category: '水（L）', current: currentWater, recommended: Math.ceil(calculations.totalWater * 1.2) },
+    { category: '食料（食）', current: currentFood, recommended: Math.ceil(calculations.totalFood * 1.1) }
   ];
 
   return (
@@ -206,7 +216,7 @@ const DisasterPreparednessCalculator = () => {
 
         {/* 推奨値との比較 */}
         <div className="bg-white p-6 rounded-lg shadow-lg">
-          <h3 className="text-lg font-semibold mb-4">現在の計画 vs 推奨値</h3>
+          <h3 className="text-lg font-semibold mb-4">現在量 vs 推奨量</h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={comparisonData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -228,6 +238,7 @@ const DisasterPreparednessCalculator = () => {
                 <tr className="border-b">
                   <th className="py-2 px-4 font-semibold">品目</th>
                   <th className="py-2 px-4 font-semibold text-right">必要数量</th>
+                  <th className="py-2 px-4 font-semibold text-right">現在の数量</th>
                   <th className="py-2 px-4 font-semibold">備考</th>
                 </tr>
               </thead>
@@ -235,26 +246,47 @@ const DisasterPreparednessCalculator = () => {
                 <tr className="border-b">
                   <td className="py-2 px-4">飲料水</td>
                   <td className="py-2 px-4 text-right">{calculations.totalWater}L</td>
+                  <td className="py-2 px-4 text-right">
+                    <input
+                      type="number"
+                      min={0}
+                      className="w-24 px-2 py-1 border border-gray-300 rounded text-right"
+                      value={currentWater}
+                      onChange={e => setCurrentWater(Number(e.target.value))}
+                    /> L
+                  </td>
                   <td className="py-2 px-4">1人1日3-4L計算</td>
                 </tr>
                 <tr className="border-b">
                   <td className="py-2 px-4">非常食</td>
                   <td className="py-2 px-4 text-right">{calculations.totalFood}食</td>
+                  <td className="py-2 px-4 text-right">
+                    <input
+                      type="number"
+                      min={0}
+                      className="w-24 px-2 py-1 border border-gray-300 rounded text-right"
+                      value={currentFood}
+                      onChange={e => setCurrentFood(Number(e.target.value))}
+                    /> 食
+                  </td>
                   <td className="py-2 px-4">1人1日3食計算</td>
                 </tr>
                 <tr className="border-b">
                   <td className="py-2 px-4">救急セット</td>
                   <td className="py-2 px-4 text-right">{calculations.emergencyKits}セット</td>
+                  <td className="py-2 px-4 text-right text-gray-400">-</td>
                   <td className="py-2 px-4">10人に1セット</td>
                 </tr>
                 <tr className="border-b">
                   <td className="py-2 px-4">懐中電灯</td>
                   <td className="py-2 px-4 text-right">{Math.ceil(employeeCount / 20)}個</td>
+                  <td className="py-2 px-4 text-right text-gray-400">-</td>
                   <td className="py-2 px-4">20人に1個</td>
                 </tr>
                 <tr>
                   <td className="py-2 px-4">毛布</td>
                   <td className="py-2 px-4 text-right">{Math.ceil(employeeCount / 2)}枚</td>
+                  <td className="py-2 px-4 text-right text-gray-400">-</td>
                   <td className="py-2 px-4">2人に1枚</td>
                 </tr>
               </tbody>
