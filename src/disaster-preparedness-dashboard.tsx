@@ -21,6 +21,7 @@ const DisasterPreparednessCalculator = () => {
   const [currentKits, setCurrentKits] = useState<number>(0);
   const [currentLights, setCurrentLights] = useState<number>(0);
   const [currentBlankets, setCurrentBlankets] = useState<number>(0);
+  const [currentLifeWater, setCurrentLifeWater] = useState<number>(0); // 追加
 
   // 計算結果
   const calculations = useMemo(() => {
@@ -59,8 +60,9 @@ const DisasterPreparednessCalculator = () => {
     setCurrentKits(calculations.emergencyKits);
     setCurrentLights(calculations.lights);
     setCurrentBlankets(calculations.blankets);
-  }, [calculations.totalWater, calculations.totalFood, calculations.emergencyKits, calculations.lights, calculations.blankets]);
-
+    setCurrentLifeWater(recommendedLifeWater);
+  }, [calculations.totalWater, calculations.totalFood, calculations.emergencyKits, calculations.lights, calculations.blankets, recommendedLifeWater]);
+  
   // チャート用データ
   const waterDistributionData = [
     { name: '飲料水', value: calculations.totalWater * 0.7, color: '#3b82f6' },
@@ -81,14 +83,10 @@ const DisasterPreparednessCalculator = () => {
   });
 
   // 推奨数量（グラフ・表で共通で使う）
-  const recommendedWater = Math.ceil(calculations.totalWater * 1.2);
-
-  // 飲料水・生活用水（緊急用水含む）の推奨数量
-  const recommendedDrinkingWater = Math.ceil(employeeCount * 3 * calculations.stockpileDays);
-  const recommendedLifeWater = Math.max(recommendedWater - recommendedDrinkingWater, 0);
-
-  // 非常食の推奨数量（1人1日3食計算）
-  const recommendedFood = employeeCount * 3 * calculations.stockpileDays;
+  const recommendedDrinkingWater = employeeCount * 3 * calculations.stockpileDays;
+  // 推奨水量全体は飲料水:生活用水=7:3の比率で、飲料水を基準に計算
+  const recommendedWater = Math.ceil(recommendedDrinkingWater / 0.7);
+  const recommendedLifeWater = recommendedWater - recommendedDrinkingWater;
 
   // グラフ用データ（現在の数量を反映）
   const comparisonData = [
@@ -341,11 +339,19 @@ const DisasterPreparednessCalculator = () => {
                 </tr>
                 <tr className="border-b">
                   <td className="py-2 px-4">生活用水（緊急用水含む）</td>
-                  <td className="py-2 px-4 text-right" />
+                  <td className="py-2 px-4 text-right">
+                    <input
+                      type="number"
+                      min={0}
+                      className="w-24 px-2 py-1 border border-gray-300 rounded text-right"
+                      value={currentLifeWater}
+                      onChange={e => setCurrentLifeWater(Number(e.target.value))}
+                    /> L
+                  </td>
                   <td className="py-2 px-4 text-right">
                     {recommendedLifeWater}L
                   </td>
-                  <td className="py-2 px-4">推奨数量から飲料水を除いた分</td>
+                  <td className="py-2 px-4">飲料水：生活用水=7:3</td>
                 </tr>
                 <tr className="border-b">
                   <td className="py-2 px-4">非常食</td>
