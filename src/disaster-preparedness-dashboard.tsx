@@ -106,13 +106,29 @@ const DisasterPreparednessCalculator = () => {
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-7xl mx-auto">
-        {/* ヘッダー */}
-        <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
-          <h1 className="text-3xl font-bold text-gray-800 mb-2 flex items-center gap-3">
-            <AlertTriangle className="text-red-500" />
-            災害備蓄計画ダッシュボード
-          </h1>
-          <p className="text-gray-600">ハザードマップを参考にした企業向け備蓄計画システム</p>
+        {/* ヘッダー＋判定タイル */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div className="bg-white rounded-lg shadow-lg p-6 flex flex-col justify-center">
+            <h1 className="text-3xl font-bold text-gray-800 mb-2 flex items-center gap-3">
+              <AlertTriangle className="text-red-500" />
+              災害備蓄計画ダッシュボード
+            </h1>
+            <p className="text-gray-600">ハザードマップを参考にした企業向け備蓄計画システム</p>
+          </div>
+          <div className="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center justify-center">
+            <span
+              className={`text-7xl font-bold ${statusClass} select-none`}
+              aria-label="備蓄判定"
+            >
+              {statusContent}
+            </span>
+            <div className="mt-2 text-gray-600 text-lg">備蓄判定</div>
+            <div className="mt-1 text-sm text-gray-500">
+              〇: 水・食料とも推奨数量以上<br />
+              △: どちらか一方のみ推奨数量以上<br />
+              ×: 両方とも未満
+            </div>
+          </div>
         </div>
 
         {/* 入力パネル */}
