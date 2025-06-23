@@ -309,15 +309,21 @@ const DisasterPreparednessCalculator = () => {
                 <tr className="border-b">
                   <td className="py-2 px-4">救急セット</td>
                   <td className="py-2 px-4 text-right">
-                    <input
-                      type="number"
-                      min={0}
-                      className="w-32 px-2 py-1 border border-gray-300 rounded text-right text-sm"
-                      value={currentKits}
-                      onChange={e => setCurrentKits(Number(e.target.value))}
-                    /> <span className="text-sm">セット</span>
+                    <div className="flex items-center justify-end gap-1">
+                      <input
+                        type="number"
+                        min={0}
+                        className="w-24 px-2 py-1 border border-gray-300 rounded text-right"
+                        value={currentKits}
+                        onChange={e => setCurrentKits(Number(e.target.value))}
+                      />
+                      <span className="inline-block min-w-[2.5rem] text-right">セット</span>
+                    </div>
                   </td>
-                  <td className="py-2 px-4 text-right">{calculations.emergencyKits}セット</td>
+                  <td className="py-2 px-4 text-right">
+                    <span className="inline-block min-w-[2.5rem] text-right">{calculations.emergencyKits}</span>
+                    <span className="ml-1">セット</span>
+                  </td>
                   <td className="py-2 px-4">10人に1セット</td>
                 </tr>
                 <tr className="border-b">
