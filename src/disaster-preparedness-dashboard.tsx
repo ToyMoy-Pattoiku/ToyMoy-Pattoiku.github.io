@@ -118,7 +118,7 @@ const DisasterPreparednessCalculator = () => {
             <p className="text-gray-600">ハザードマップを参考にした企業向け備蓄計画システム</p>
           </div>
           <div className="bg-white rounded-lg shadow-lg p-4 md:p-3 flex flex-col items-center justify-center w-full md:max-w-xs mx-auto">
-            <div className="mt-2 text-gray-600 text-lg">備蓄判定</div>
+            <div className="text-lg font-semibold mb-4">備蓄判定</div>
             <span
               className={`text-7xl font-bold ${statusClass} select-none`}
               aria-label="備蓄判定"
