@@ -86,6 +86,23 @@ const DisasterPreparednessCalculator = () => {
     { category: '食料（食）', current: currentFood, recommended: Math.ceil(calculations.totalFood * 1.1) }
   ];
 
+  // 判定ロジック
+  const waterOk = currentWater >= Math.ceil(calculations.totalWater * 1.2);
+  const foodOk = currentFood >= Math.ceil(calculations.totalFood * 1.1);
+
+  let statusClass = '';
+  let statusContent = '';
+  if (waterOk && foodOk) {
+    statusClass = 'text-green-500';
+    statusContent = '〇';
+  } else if (waterOk || foodOk) {
+    statusClass = 'text-yellow-500';
+    statusContent = '△';
+  } else {
+    statusClass = 'text-red-500';
+    statusContent = '×';
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-7xl mx-auto">
