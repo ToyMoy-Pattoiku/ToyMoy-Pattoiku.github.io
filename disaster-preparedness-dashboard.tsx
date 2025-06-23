@@ -95,7 +95,7 @@ const DisasterPreparednessCalculator = () => {
               <label className="block text-sm font-medium text-gray-700 mb-2">地域選択</label>
               <select
                 value={location}
-                onChange={(e) => setLocation(e.target.value)}
+                onChange={(e) => setLocation(e.target.value as 'tokyo' | 'osaka' | 'sendai' | 'fukuoka')}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="tokyo">東京都</option>
