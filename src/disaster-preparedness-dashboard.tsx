@@ -255,15 +255,14 @@ const DisasterPreparednessCalculator = () => {
               <thead>
                 <tr className="border-b">
                   <th className="py-2 px-4 font-semibold">品目</th>
-                  <th className="py-2 px-4 font-semibold text-right">推奨数量</th>
                   <th className="py-2 px-4 font-semibold text-right">現在数量</th>
+                  <th className="py-2 px-4 font-semibold text-right">推奨数量</th>
                   <th className="py-2 px-4 font-semibold">備考</th>
                 </tr>
               </thead>
               <tbody>
                 <tr className="border-b">
                   <td className="py-2 px-4">飲料水</td>
-                  <td className="py-2 px-4 text-right">{calculations.totalWater}L</td>
                   <td className="py-2 px-4 text-right">
                     <input
                       type="number"
@@ -273,11 +272,11 @@ const DisasterPreparednessCalculator = () => {
                       onChange={e => setCurrentWater(Number(e.target.value))}
                     /> L
                   </td>
+                  <td className="py-2 px-4 text-right">{calculations.totalWater}L</td>
                   <td className="py-2 px-4">1人1日3-4L計算</td>
                 </tr>
                 <tr className="border-b">
                   <td className="py-2 px-4">非常食</td>
-                  <td className="py-2 px-4 text-right">{calculations.totalFood}食</td>
                   <td className="py-2 px-4 text-right">
                     <input
                       type="number"
@@ -287,11 +286,11 @@ const DisasterPreparednessCalculator = () => {
                       onChange={e => setCurrentFood(Number(e.target.value))}
                     /> 食
                   </td>
+                  <td className="py-2 px-4 text-right">{calculations.totalFood}食</td>
                   <td className="py-2 px-4">1人1日3食計算</td>
                 </tr>
                 <tr className="border-b">
                   <td className="py-2 px-4">救急セット</td>
-                  <td className="py-2 px-4 text-right">{calculations.emergencyKits}セット</td>
                   <td className="py-2 px-4 text-right">
                     <input
                       type="number"
@@ -301,11 +300,11 @@ const DisasterPreparednessCalculator = () => {
                       onChange={e => setCurrentKits(Number(e.target.value))}
                     /> セット
                   </td>
+                  <td className="py-2 px-4 text-right">{calculations.emergencyKits}セット</td>
                   <td className="py-2 px-4">10人に1セット</td>
                 </tr>
                 <tr className="border-b">
                   <td className="py-2 px-4">懐中電灯</td>
-                  <td className="py-2 px-4 text-right">{calculations.lights}個</td>
                   <td className="py-2 px-4 text-right">
                     <input
                       type="number"
@@ -315,11 +314,11 @@ const DisasterPreparednessCalculator = () => {
                       onChange={e => setCurrentLights(Number(e.target.value))}
                     /> 個
                   </td>
+                  <td className="py-2 px-4 text-right">{calculations.lights}個</td>
                   <td className="py-2 px-4">20人に1個</td>
                 </tr>
                 <tr>
                   <td className="py-2 px-4">毛布</td>
-                  <td className="py-2 px-4 text-right">{calculations.blankets}枚</td>
                   <td className="py-2 px-4 text-right">
                     <input
                       type="number"
@@ -329,6 +328,7 @@ const DisasterPreparednessCalculator = () => {
                       onChange={e => setCurrentBlankets(Number(e.target.value))}
                     /> 枚
                   </td>
+                  <td className="py-2 px-4 text-right">{calculations.blankets}枚</td>
                   <td className="py-2 px-4">2人に1枚</td>
                 </tr>
               </tbody>
