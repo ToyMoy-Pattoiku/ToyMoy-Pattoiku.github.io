@@ -82,7 +82,6 @@ const DisasterPreparednessCalculator = () => {
 
   // 推奨数量（グラフ・表で共通で使う）
   const recommendedWater = Math.ceil(calculations.totalWater * 1.2);
-  const recommendedFood = Math.ceil(calculations.totalFood * 1.1);
 
   // 飲料水・生活用水（緊急用水含む）の推奨数量
   const recommendedDrinkingWater = Math.ceil(employeeCount * 3 * calculations.stockpileDays);
