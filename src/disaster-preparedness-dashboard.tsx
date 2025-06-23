@@ -40,11 +40,17 @@ const DisasterPreparednessCalculator = () => {
     { name: '緊急用水', value: calculations.totalWater * 0.1, color: '#0ea5e9' }
   ];
 
-  const dailyConsumptionData = Array.from({ length: calculations.stockpileDays }, (_, i) => ({
-    day: i + 1,
-    water: calculations.dailyWater,
-    food: employeeCount * 3
-  }));
+  // 備蓄量から日ごとに減っていくグラフデータ
+  const dailyConsumptionData = Array.from({ length: calculations.stockpileDays }, (_, i) => {
+    const day = i + 1;
+    const waterLeft = Math.max(calculations.totalWater - calculations.dailyWater * i, 0);
+    const foodLeft = Math.max(calculations.totalFood - (employeeCount * 3) * i, 0);
+    return {
+      day,
+      waterLeft,
+      foodLeft
+    };
+  });
 
   const comparisonData = [
     { category: '水（L）', current: calculations.totalWater, recommended: Math.ceil(calculations.totalWater * 1.2) },
@@ -187,8 +193,8 @@ const DisasterPreparednessCalculator = () => {
                 <XAxis dataKey="day" />
                 <YAxis />
                 <Tooltip />
-                <Line type="monotone" dataKey="water" stroke="#3b82f6" name="水（L）" />
-                <Line type="monotone" dataKey="food" stroke="#ef4444" name="食料（食）" />
+                <Line type="monotone" dataKey="waterLeft" stroke="#3b82f6" name="残り水量（L）" />
+                <Line type="monotone" dataKey="foodLeft" stroke="#ef4444" name="残り食料（食）" />
               </LineChart>
             </ResponsiveContainer>
           </div>
