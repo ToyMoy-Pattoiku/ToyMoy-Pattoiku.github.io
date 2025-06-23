@@ -4,7 +4,7 @@ import { AlertTriangle, Droplets, Calendar, Users, MapPin } from 'lucide-react';
 
 const DisasterPreparednessCalculator = () => {
   const [employeeCount, setEmployeeCount] = useState(100);
-  const [riskLevel, setRiskLevel] = useState('high');
+  const [riskLevel, setRiskLevel] = useState<'low' | 'medium' | 'high' | 'critical'>('high');
   const [location, setLocation] = useState('tokyo');
 
   // ハザードマップに基づくリスク評価
