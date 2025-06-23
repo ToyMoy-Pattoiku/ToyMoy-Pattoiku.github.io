@@ -91,6 +91,7 @@ const DisasterPreparednessCalculator = () => {
               >
                 <option value="tokyo">東京都</option>
                 <option value="osaka">大阪府</option>
+                <option value="aichi">愛知県</option>
                 <option value="sendai">仙台市</option>
                 <option value="fukuoka">福岡市</option>
               </select>
