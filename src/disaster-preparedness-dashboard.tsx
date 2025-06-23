@@ -1,37 +1,28 @@
 import React, { useState, useMemo } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts';
 import { AlertTriangle, Droplets, Calendar, Users, MapPin } from 'lucide-react';
+import { RiskLevel, LocationKey, locationRisk } from './types';
+
+const hazardData: Record<RiskLevel, { days: number; waterPerDay: number; riskColor: string }> = {
+  low: { days: 3, waterPerDay: 3, riskColor: '#22c55e' },
+  medium: { days: 5, waterPerDay: 3, riskColor: '#f59e0b' },
+  high: { days: 7, waterPerDay: 3, riskColor: '#ef4444' },
+  critical: { days: 10, waterPerDay: 4, riskColor: '#dc2626' }
+};
 
 const DisasterPreparednessCalculator = () => {
-  const [employeeCount, setEmployeeCount] = useState(100);
-  const [riskLevel, setRiskLevel] = useState<'low' | 'medium' | 'high' | 'critical'>('high');
-  const [location, setLocation] = useState<'tokyo' | 'osaka' | 'sendai' | 'fukuoka'>('tokyo');
-
-  // ハザードマップに基づくリスク評価
-  const hazardData = {
-    low: { days: 3, waterPerDay: 3, riskColor: '#22c55e' },
-    medium: { days: 5, waterPerDay: 3, riskColor: '#f59e0b' },
-    high: { days: 7, waterPerDay: 3, riskColor: '#ef4444' },
-    critical: { days: 10, waterPerDay: 4, riskColor: '#dc2626' }
-  };
-
-  // 地域別リスク設定
-  const locationRisk = {
-    tokyo: { baseRisk: 'high', multiplier: 1.2, name: '東京都' },
-    osaka: { baseRisk: 'medium', multiplier: 1.1, name: '大阪府' },
-    sendai: { baseRisk: 'high', multiplier: 1.3, name: '仙台市' },
-    fukuoka: { baseRisk: 'medium', multiplier: 1.0, name: '福岡市' }
-  };
+  const [employeeCount, setEmployeeCount] = useState<number>(100);
+  const [riskLevel, setRiskLevel] = useState<RiskLevel>('high');
+  const [location, setLocation] = useState<LocationKey>('tokyo');
 
   // 計算結果
   const calculations = useMemo(() => {
     const hazard = hazardData[riskLevel];
     const locationInfo = locationRisk[location];
-    
     const totalWaterNeeded = employeeCount * hazard.waterPerDay * hazard.days * locationInfo.multiplier;
     const totalFoodNeeded = employeeCount * hazard.days;
     const emergencyKitNeeded = Math.ceil(employeeCount / 10);
-    
+
     return {
       stockpileDays: Math.ceil(hazard.days * locationInfo.multiplier),
       totalWater: Math.ceil(totalWaterNeeded),
@@ -56,8 +47,8 @@ const DisasterPreparednessCalculator = () => {
   }));
 
   const comparisonData = [
-    { category: '水（L）', current: calculations.totalWater, recommended: calculations.totalWater * 1.2 },
-    { category: '食料（食）', current: calculations.totalFood, recommended: calculations.totalFood * 1.1 },
+    { category: '水（L）', current: calculations.totalWater, recommended: Math.ceil(calculations.totalWater * 1.2) },
+    { category: '食料（食）', current: calculations.totalFood, recommended: Math.ceil(calculations.totalFood * 1.1) },
     { category: '救急セット', current: calculations.emergencyKits, recommended: calculations.emergencyKits }
   ];
 
@@ -87,15 +78,15 @@ const DisasterPreparednessCalculator = () => {
                 value={employeeCount}
                 onChange={(e) => setEmployeeCount(parseInt(e.target.value) || 0)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                min="1"
-                max="10000"
+                min={1}
+                max={10000}
               />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">地域選択</label>
               <select
                 value={location}
-                onChange={(e) => setLocation(e.target.value as 'tokyo' | 'osaka' | 'sendai' | 'fukuoka')}
+                onChange={(e) => setLocation(e.target.value as LocationKey)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="tokyo">東京都</option>
@@ -108,7 +99,7 @@ const DisasterPreparednessCalculator = () => {
               <label className="block text-sm font-medium text-gray-700 mb-2">リスクレベル</label>
               <select
                 value={riskLevel}
-                onChange={(e) => setRiskLevel(e.target.value as 'low' | 'medium' | 'high' | 'critical')}
+                onChange={(e) => setRiskLevel(e.target.value as RiskLevel)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="low">低リスク</option>
