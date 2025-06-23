@@ -80,9 +80,11 @@ const DisasterPreparednessCalculator = () => {
     };
   });
 
-  // グラフ用データ（現在の数量を反映）
+  // 推奨数量（グラフ・表で共通で使う）
   const recommendedWater = Math.ceil(calculations.totalWater * 1.2);
   const recommendedFood = Math.ceil(calculations.totalFood * 1.1);
+
+  // グラフ用データ（現在の数量を反映）
   const comparisonData = [
     { category: '水（L）', current: currentWater, recommended: recommendedWater },
     { category: '食料（食）', current: currentFood, recommended: recommendedFood }
@@ -276,8 +278,8 @@ const DisasterPreparednessCalculator = () => {
               <XAxis dataKey="category" />
               <YAxis />
               <Tooltip />
-              <Bar dataKey="current" fill="#3b82f6" name="現在の計画" />
-              <Bar dataKey="recommended" fill="#10b981" name="推奨値" />
+              <Bar dataKey="current" fill="#3b82f6" name="現在数量" />
+              <Bar dataKey="recommended" fill="#10b981" name="推奨数量" />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -307,7 +309,7 @@ const DisasterPreparednessCalculator = () => {
                       onChange={e => setCurrentWater(Number(e.target.value))}
                     /> L
                   </td>
-                  <td className="py-2 px-4 text-right">{calculations.totalWater}L</td>
+                  <td className="py-2 px-4 text-right">{recommendedWater}L</td>
                   <td className="py-2 px-4">1人1日3-4L計算</td>
                 </tr>
                 <tr className="border-b">
@@ -321,7 +323,7 @@ const DisasterPreparednessCalculator = () => {
                       onChange={e => setCurrentFood(Number(e.target.value))}
                     /> 食
                   </td>
-                  <td className="py-2 px-4 text-right">{calculations.totalFood}食</td>
+                  <td className="py-2 px-4 text-right">{recommendedFood}食</td>
                   <td className="py-2 px-4">1人1日3食計算</td>
                 </tr>
                 <tr className="border-b">
