@@ -178,9 +178,9 @@ const DisasterPreparednessCalculator = () => {
               {statusContent}
             </span>
             <div className="mt-1 text-sm text-gray-500 text-center">
-              〇：飲料水と非常食の両方が推奨数量を満たしています<br />
-              △：飲料水または非常食のどちらかが推奨数量を満たしています<br />
-              ×：飲料水も非常食も推奨数量を満たしていません
+              {statusContent === '〇' && <>飲料水と非常食の両方が推奨数量を満たしています</>}
+              {statusContent === '△' && <>飲料水または非常食のどちらかが推奨数量を満たしています</>}
+              {statusContent === '×' && <>飲料水も非常食も推奨数量を満たしていません</>}
             </div>
           </div>
         </div>
