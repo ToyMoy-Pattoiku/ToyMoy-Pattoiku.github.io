@@ -174,6 +174,8 @@ const DisasterPreparednessCalculator = () => {
                   outerRadius={80}
                   fill="#8884d8"
                   dataKey="value"
+                  startAngle={90}
+                  endAngle={-270}
                 >
                   {waterDistributionData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.color} />
@@ -186,7 +188,7 @@ const DisasterPreparednessCalculator = () => {
 
           {/* 日別消費量 */}
           <div className="bg-white p-6 rounded-lg shadow-lg">
-            <h3 className="text-lg font-semibold mb-4">日別消費量予測</h3>
+            <h3 className="text-lg font-semibold mb-4">備蓄残予測</h3>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={dailyConsumptionData}>
                 <CartesianGrid strokeDasharray="3 3" />
