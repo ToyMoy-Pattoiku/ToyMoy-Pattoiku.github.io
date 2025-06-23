@@ -84,6 +84,13 @@ const DisasterPreparednessCalculator = () => {
   const recommendedWater = Math.ceil(calculations.totalWater * 1.2);
   const recommendedFood = Math.ceil(calculations.totalFood * 1.1);
 
+  // 飲料水・生活用水（緊急用水含む）の推奨数量
+  const recommendedDrinkingWater = Math.ceil(employeeCount * 3 * calculations.stockpileDays);
+  const recommendedLifeWater = Math.max(recommendedWater - recommendedDrinkingWater, 0);
+
+  // 非常食の推奨数量（1人1日3食計算）
+  const recommendedFood = employeeCount * 3 * calculations.stockpileDays;
+
   // グラフ用データ（現在の数量を反映）
   const comparisonData = [
     { category: '水（L）', current: currentWater, recommended: recommendedWater },
@@ -200,7 +207,9 @@ const DisasterPreparednessCalculator = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">必要水量（総計）</p>
-                <p className="text-2xl font-bold text-cyan-600">{calculations.totalWater}L</p>
+                <p className="text-2xl font-bold text-cyan-600">
+                  {recommendedDrinkingWater + recommendedLifeWater}L
+                </p>
               </div>
               <Droplets className="text-cyan-500 w-8 h-8" />
             </div>
@@ -235,7 +244,7 @@ const DisasterPreparednessCalculator = () => {
               </div>
               <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-pink-100">
                 <svg className="w-6 h-6 text-pink-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
                 </svg>
               </span>
             </div>
@@ -328,8 +337,16 @@ const DisasterPreparednessCalculator = () => {
                       onChange={e => setCurrentWater(Number(e.target.value))}
                     /> L
                   </td>
-                  <td className="py-2 px-4 text-right">{recommendedWater}L</td>
-                  <td className="py-2 px-4">1人1日3-4L計算</td>
+                  <td className="py-2 px-4 text-right">{recommendedDrinkingWater}L</td>
+                  <td className="py-2 px-4">1人1日3L計算</td>
+                </tr>
+                <tr className="border-b">
+                  <td className="py-2 px-4">生活用水（緊急用水含む）</td>
+                  <td className="py-2 px-4 text-right" />
+                  <td className="py-2 px-4 text-right">
+                    {recommendedLifeWater}L
+                  </td>
+                  <td className="py-2 px-4">推奨数量から飲料水を除いた分</td>
                 </tr>
                 <tr className="border-b">
                   <td className="py-2 px-4">非常食</td>
