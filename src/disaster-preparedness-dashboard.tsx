@@ -109,15 +109,15 @@ const DisasterPreparednessCalculator = () => {
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-7xl mx-auto">
         {/* ヘッダー＋判定タイル */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-          <div className="bg-white rounded-lg shadow-lg p-6 flex flex-col justify-center">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+          <div className="bg-white rounded-lg shadow-lg p-6 flex flex-col justify-center md:col-span-2">
             <h1 className="text-3xl font-bold text-gray-800 mb-2 flex items-center gap-3">
               <AlertTriangle className="text-red-500" />
               災害備蓄計画ダッシュボード
             </h1>
             <p className="text-gray-600">ハザードマップを参考にした企業向け備蓄計画システム</p>
           </div>
-          <div className="bg-white rounded-lg shadow-lg p-4 md:p-3 flex flex-col items-center justify-center w-full md:max-w-xs mx-auto">
+          <div className="bg-white rounded-lg shadow-lg p-4 md:p-3 flex flex-col items-center justify-center w-full md:max-w-xs md:ml-auto">
             <div className="text-lg font-semibold mb-4">備蓄判定</div>
             <span
               className={`text-7xl font-bold ${statusClass} select-none`}
