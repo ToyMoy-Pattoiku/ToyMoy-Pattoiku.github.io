@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, AreaChart, Area } from 'recharts';
 import { AlertTriangle, Droplets, Calendar, Users, MapPin } from 'lucide-react';
 import { RiskLevel, LocationKey, locationRisk } from './types';
 
@@ -190,14 +190,16 @@ const DisasterPreparednessCalculator = () => {
           <div className="bg-white p-6 rounded-lg shadow-lg">
             <h3 className="text-lg font-semibold mb-4">備蓄残予測</h3>
             <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={dailyConsumptionData}>
+              <AreaChart data={dailyConsumptionData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="day" />
                 <YAxis />
                 <Tooltip />
-                <Line type="monotone" dataKey="waterLeft" stroke="#3b82f6" name="残り水量（L）" />
-                <Line type="monotone" dataKey="foodLeft" stroke="#ef4444" name="残り食料（食）" />
-              </LineChart>
+                <Area type="monotone" dataKey="waterLeft" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.2} name="残り水量（L）" />
+                <Area type="monotone" dataKey="foodLeft" stroke="#ef4444" fill="#ef4444" fillOpacity={0.2} name="残り食料（食）" />
+                <Line type="monotone" dataKey="waterLeft" stroke="#3b82f6" name="残り水量（L）" dot={false} />
+                <Line type="monotone" dataKey="foodLeft" stroke="#ef4444" name="残り食料（食）" dot={false} />
+              </AreaChart>
             </ResponsiveContainer>
           </div>
         </div>
