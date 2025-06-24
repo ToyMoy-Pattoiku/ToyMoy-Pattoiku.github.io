@@ -133,7 +133,6 @@ const DisasterPreparednessCalculator = () => {
             <AlertTriangle className="text-red-500" />
             災害備蓄計画ダッシュボード
           </h1>
-          <p className="text-gray-600">ハザードマップを参考にした企業向け備蓄計画システム</p>
         </div>
 
         {/* 入力パネル＋備蓄判定タイル */}
