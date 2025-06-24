@@ -288,6 +288,10 @@ const DisasterPreparednessCalculator = () => {
                       content={({ active, payload }) => {
                         if (active && payload && payload.length) {
                           const entry = payload[0].payload;
+                          const percent = (
+                            entry.value /
+                            (waterDistributionData[0].value + waterDistributionData[1].value)
+                          ) * 100;
                           const style = {
                             color: entry.color,
                             fontWeight: 'bold'
@@ -295,7 +299,7 @@ const DisasterPreparednessCalculator = () => {
                           return (
                             <div className="custom-tooltip" style={{ background: '#fff', border: '1px solid #ccc', padding: 8, borderRadius: 6, minWidth: 220 }}>
                               <span style={style}>
-                                {entry.name}：{entry.value}L
+                                {entry.name}：{entry.value}L（{percent.toFixed(0)}%）
                               </span>
                             </div>
                           );
@@ -307,23 +311,27 @@ const DisasterPreparednessCalculator = () => {
                 </ResponsiveContainer>
                 {/* 凡例を追加 */}
                 <div className="flex gap-6 justify-center mt-4 flex-wrap">
-                  {waterDistributionData.map((entry, idx) => (
-                    <div key={entry.name} className="flex items-center gap-2 min-w-[120px]">
-                      <span
-                        style={{
-                          display: 'inline-block',
-                          width: 16,
-                          height: 16,
-                          backgroundColor: entry.color,
-                          borderRadius: 4,
-                          marginRight: 6,
-                        }}
-                      />
-                      <span className="text-sm" style={{ color: entry.color, fontWeight: 'bold' }}>
-                        {entry.name}
-                      </span>
-                    </div>
-                  ))}
+                  {waterDistributionData.map((entry, idx) => {
+                    const total = waterDistributionData[0].value + waterDistributionData[1].value;
+                    const percent = total > 0 ? (entry.value / total) * 100 : 0;
+                    return (
+                      <div key={entry.name} className="flex items-center gap-2 min-w-[120px]">
+                        <span
+                          style={{
+                            display: 'inline-block',
+                            width: 16,
+                            height: 16,
+                            backgroundColor: entry.color,
+                            borderRadius: 4,
+                            marginRight: 6,
+                          }}
+                        />
+                        <span className="text-sm" style={{ color: entry.color, fontWeight: 'bold' }}>
+                          {entry.name}（{percent.toFixed(0)}%）
+                        </span>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>
