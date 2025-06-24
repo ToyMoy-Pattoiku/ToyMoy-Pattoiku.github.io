@@ -58,6 +58,9 @@ const DisasterPreparednessCalculator = () => {
   const recommendedWater = Math.ceil(recommendedDrinkingWater / 0.7);
   const recommendedLifeWater = recommendedWater - recommendedDrinkingWater;
 
+  // 推奨非常食（1人1日3食計算）
+  const recommendedFood = employeeCount * 3 * calculations.stockpileDays;
+
   // 必要数量が変わったら現在数量も初期化
   React.useEffect(() => {
     setCurrentWater(calculations.totalWater);
