@@ -264,6 +264,7 @@ const DisasterPreparednessCalculator = () => {
                   <th className="py-2 px-4 font-semibold">品目</th>
                   <th className="py-2 px-4 font-semibold text-right">現在数量</th>
                   <th className="py-2 px-4 font-semibold text-right">推奨数量</th>
+                  <th className="py-2 px-4 font-semibold text-center">単位</th>
                   <th className="py-2 px-4 font-semibold">備考</th>
                 </tr>
               </thead>
@@ -277,10 +278,11 @@ const DisasterPreparednessCalculator = () => {
                       className="w-24 px-2 py-1 border border-gray-300 rounded text-right"
                       value={currentWater}
                       onChange={e => setCurrentWater(Number(e.target.value))}
-                    /> L
+                    />
                   </td>
-                  <td className="py-2 px-4 text-right">{recommendedDrinkingWater}L</td>
-                  <td className="py-2 px-4">1人1日3L計算</td>
+                  <td className="py-2 px-4 text-right">{recommendedDrinkingWater}</td>
+                  <td className="py-2 px-4 text-center">L</td>
+                  <td className="py-2 px-4">1人1日3L</td>
                 </tr>
                 <tr className="border-b">
                   <td className="py-2 px-4">生活用水（緊急用水含む）</td>
@@ -291,11 +293,10 @@ const DisasterPreparednessCalculator = () => {
                       className="w-24 px-2 py-1 border border-gray-300 rounded text-right"
                       value={currentLifeWater}
                       onChange={e => setCurrentLifeWater(Number(e.target.value))}
-                    /> L
+                    />
                   </td>
-                  <td className="py-2 px-4 text-right">
-                    {recommendedLifeWater}L
-                  </td>
+                  <td className="py-2 px-4 text-right">{recommendedLifeWater}</td>
+                  <td className="py-2 px-4 text-center">L</td>
                   <td className="py-2 px-4">飲料水：生活用水=7:3</td>
                 </tr>
                 <tr className="border-b">
@@ -307,10 +308,11 @@ const DisasterPreparednessCalculator = () => {
                       className="w-24 px-2 py-1 border border-gray-300 rounded text-right"
                       value={currentFood}
                       onChange={e => setCurrentFood(Number(e.target.value))}
-                    /> 食
+                    />
                   </td>
-                  <td className="py-2 px-4 text-right">{recommendedFood}食</td>
-                  <td className="py-2 px-4">1人1日3食計算</td>
+                  <td className="py-2 px-4 text-right">{recommendedFood}</td>
+                  <td className="py-2 px-4 text-center">食</td>
+                  <td className="py-2 px-4">1人1日3食</td>
                 </tr>
                 <tr className="border-b">
                   <td className="py-2 px-4">救急セット</td>
@@ -323,12 +325,10 @@ const DisasterPreparednessCalculator = () => {
                         value={currentKits}
                         onChange={e => setCurrentKits(Number(e.target.value))}
                       />
-                      <span>セット</span>
                     </div>
                   </td>
-                  <td className="py-2 px-4 text-right">
-                    {calculations.emergencyKits}セット
-                  </td>
+                  <td className="py-2 px-4 text-right">{calculations.emergencyKits}</td>
+                  <td className="py-2 px-4 text-center">セット</td>
                   <td className="py-2 px-4">10人に1セット</td>
                 </tr>
                 <tr className="border-b">
@@ -340,9 +340,10 @@ const DisasterPreparednessCalculator = () => {
                       className="w-24 px-2 py-1 border border-gray-300 rounded text-right"
                       value={currentLights}
                       onChange={e => setCurrentLights(Number(e.target.value))}
-                    /> 個
+                    />
                   </td>
-                  <td className="py-2 px-4 text-right">{calculations.lights}個</td>
+                  <td className="py-2 px-4 text-right">{calculations.lights}</td>
+                  <td className="py-2 px-4 text-center">個</td>
                   <td className="py-2 px-4">20人に1個</td>
                 </tr>
                 <tr>
@@ -354,14 +355,30 @@ const DisasterPreparednessCalculator = () => {
                       className="w-24 px-2 py-1 border border-gray-300 rounded text-right"
                       value={currentBlankets}
                       onChange={e => setCurrentBlankets(Number(e.target.value))}
-                    /> 枚
+                    />
                   </td>
-                  <td className="py-2 px-4 text-right">{calculations.blankets}枚</td>
+                  <td className="py-2 px-4 text-right">{calculations.blankets}</td>
+                  <td className="py-2 px-4 text-center">枚</td>
                   <td className="py-2 px-4">2人に1枚</td>
                 </tr>
               </tbody>
             </table>
           </div>
+        </div>
+
+        {/* 現在数量 vs 推奨数量（備蓄品目の直後に移動） */}
+        <div className="bg-white p-6 rounded-lg shadow-lg mb-6">
+          <h3 className="text-lg font-semibold mb-4">現在数量 vs 推奨数量</h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={comparisonData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="category" />
+              <YAxis />
+              <Tooltip />
+              <Bar dataKey="current" fill="#3b82f6" name="現在数量" />
+              <Bar dataKey="recommended" fill="#10b981" name="推奨数量" />
+            </BarChart>
+          </ResponsiveContainer>
         </div>
 
         {/* チャートセクション */}
@@ -470,21 +487,6 @@ const DisasterPreparednessCalculator = () => {
               </AreaChart>
             </ResponsiveContainer>
           </div>
-        </div>
-
-        {/* 推奨値との比較 */}
-        <div className="bg-white p-6 rounded-lg shadow-lg">
-          <h3 className="text-lg font-semibold mb-4">現在数量 vs 推奨数量</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={comparisonData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="category" />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey="current" fill="#3b82f6" name="現在数量" />
-              <Bar dataKey="recommended" fill="#10b981" name="推奨数量" />
-            </BarChart>
-          </ResponsiveContainer>
         </div>
       </div>
     </div>
