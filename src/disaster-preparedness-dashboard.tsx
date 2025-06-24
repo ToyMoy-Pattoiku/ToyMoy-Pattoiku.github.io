@@ -254,9 +254,9 @@ const DisasterPreparednessCalculator = () => {
           </div>
         </div>
 
-        {/* 備蓄品目詳細（KPIカードの直後に移動） */}
+        {/* 備蓄品目（KPIカードの直後に移動） */}
         <div className="bg-white p-6 rounded-lg shadow-lg mb-6">
-          <h3 className="text-lg font-semibold mb-4">備蓄品目詳細</h3>
+          <h3 className="text-lg font-semibold mb-4">備蓄品目</h3>
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
