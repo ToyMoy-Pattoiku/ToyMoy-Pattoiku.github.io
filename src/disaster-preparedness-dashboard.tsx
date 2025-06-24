@@ -64,32 +64,6 @@ const DisasterPreparednessCalculator = () => {
   // 1日当たり食料（1人1日3食計算で備蓄日数で割る）
   const recommendedDailyFood = Math.ceil(currentFood / calculations.stockpileDays);
 
-  // 必要数量が変わったら現在数量も初期化
-  React.useEffect(() => {
-    setCurrentWater(calculations.totalWater);
-    setCurrentFood(recommendedFood); // 修正: 推奨非常食で初期化
-    setCurrentKits(calculations.emergencyKits);
-    setCurrentLights(calculations.lights);
-    setCurrentBlankets(calculations.blankets);
-    setCurrentLifeWater(recommendedLifeWater);
-  }, [
-    calculations.totalWater,
-    recommendedFood, // 依存配列も修正
-    calculations.emergencyKits,
-    calculations.lights,
-    calculations.blankets,
-    recommendedLifeWater
-  ]);
-  
-  // 1日当たり水量（推奨水量を備蓄日数で割る）
-  const recommendedDailyWater = Math.ceil(recommendedWater / calculations.stockpileDays);
-
-  // 水の用途別分布（推奨数量ベースで7:3で分割）
-  const waterDistributionData = [
-    { name: '飲料水', value: recommendedDrinkingWater, color: '#3b82f6' },
-    { name: '生活用水（緊急用水含む）', value: recommendedLifeWater, color: '#06b6d4' }
-  ];
-
   // 備蓄量から日ごとに減っていくグラフデータ
   const dailyConsumptionData = Array.from({ length: calculations.stockpileDays + 1 }, (_, i) => {
     const day = i + 1;
@@ -97,7 +71,8 @@ const DisasterPreparednessCalculator = () => {
     const initialWater = currentWater + currentLifeWater;
     const initialFood = currentFood;
     const waterLeft = Math.max(initialWater - calculations.dailyWater * i, 0);
-    const foodLeft = Math.max(initialFood - calculations.dailyFood * i, 0);
+    // 1日当たり食料の計算し直しを反映
+    const foodLeft = Math.max(initialFood - recommendedDailyFood * i, 0);
     return {
       day,
       waterLeft,
