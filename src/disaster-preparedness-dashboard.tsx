@@ -111,6 +111,12 @@ const DisasterPreparednessCalculator = () => {
     statusContent = '×';
   }
 
+  // 水の用途別分布（推奨数量ベースで7:3で分割）
+  const waterDistributionData = [
+    { name: '飲料水', value: recommendedDrinkingWater, color: '#3b82f6' },
+    { name: '生活用水（緊急用水含む）', value: recommendedLifeWater, color: '#06b6d4' }
+  ];
+
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-7xl mx-auto">
