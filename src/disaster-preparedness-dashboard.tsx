@@ -53,6 +53,11 @@ const DisasterPreparednessCalculator = () => {
     };
   }, [employeeCount, riskLevel, location]);
 
+  // 推奨数量（グラフ・表で共通で使う）
+  const recommendedDrinkingWater = employeeCount * 3 * calculations.stockpileDays;
+  const recommendedWater = Math.ceil(recommendedDrinkingWater / 0.7);
+  const recommendedLifeWater = recommendedWater - recommendedDrinkingWater;
+
   // 必要数量が変わったら現在数量も初期化
   React.useEffect(() => {
     setCurrentWater(calculations.totalWater);
@@ -61,13 +66,15 @@ const DisasterPreparednessCalculator = () => {
     setCurrentLights(calculations.lights);
     setCurrentBlankets(calculations.blankets);
     setCurrentLifeWater(recommendedLifeWater);
-  }, [calculations.totalWater, calculations.totalFood, calculations.emergencyKits, calculations.lights, calculations.blankets, recommendedLifeWater]);
+  }, [
+    calculations.totalWater,
+    calculations.totalFood,
+    calculations.emergencyKits,
+    calculations.lights,
+    calculations.blankets,
+    recommendedLifeWater
+  ]);
   
-  // 推奨数量（グラフ・表で共通で使う）
-  const recommendedDrinkingWater = employeeCount * 3 * calculations.stockpileDays;
-  const recommendedWater = Math.ceil(recommendedDrinkingWater / 0.7);
-  const recommendedLifeWater = recommendedWater - recommendedDrinkingWater;
-
   // 1日当たり水量（推奨水量を備蓄日数で割る）
   const recommendedDailyWater = Math.ceil(recommendedWater / calculations.stockpileDays);
 
