@@ -64,14 +64,14 @@ const DisasterPreparednessCalculator = () => {
   // 必要数量が変わったら現在数量も初期化
   React.useEffect(() => {
     setCurrentWater(calculations.totalWater);
-    setCurrentFood(calculations.totalFood);
+    setCurrentFood(recommendedFood); // 修正: 推奨非常食で初期化
     setCurrentKits(calculations.emergencyKits);
     setCurrentLights(calculations.lights);
     setCurrentBlankets(calculations.blankets);
     setCurrentLifeWater(recommendedLifeWater);
   }, [
     calculations.totalWater,
-    calculations.totalFood,
+    recommendedFood, // 依存配列も修正
     calculations.emergencyKits,
     calculations.lights,
     calculations.blankets,
