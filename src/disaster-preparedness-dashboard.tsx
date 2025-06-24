@@ -99,6 +99,9 @@ const DisasterPreparednessCalculator = () => {
     };
   });
 
+  // 水の現在数量は飲料水＋生活用水（緊急用水含む）の合算
+  const totalCurrentWater = currentWater + currentLifeWater;
+
   // グラフ用データ（現在の数量を反映）
   const comparisonData = [
     { category: '水（L）', current: totalCurrentWater, recommended: recommendedWater },
@@ -106,8 +109,6 @@ const DisasterPreparednessCalculator = () => {
   ];
 
   // 判定ロジック（現在数量と推奨数量で判定）
-  // 水の現在数量は飲料水＋生活用水（緊急用水含む）の合算
-  const totalCurrentWater = currentWater + currentLifeWater;
   const waterOk = totalCurrentWater >= recommendedWater;
   const foodOk = currentFood >= recommendedFood;
 
@@ -283,14 +284,33 @@ const DisasterPreparednessCalculator = () => {
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
                 </Pie>
-                <Tooltip formatter={(value) => [`${value}L`, '']} />
+                <Tooltip
+                  content={({ active, payload }) => {
+                    if (active && payload && payload.length) {
+                      const entry = payload[0].payload;
+                      // 色に合わせてフォント色を適用
+                      const style = {
+                        color: entry.color,
+                        fontWeight: 'bold'
+                      };
+                      return (
+                        <div className="custom-tooltip" style={{ background: '#fff', border: '1px solid #ccc', padding: 8, borderRadius: 6 }}>
+                          <span style={style}>
+                            {entry.name}：{entry.value}L
+                          </span>
+                        </div>
+                      );
+                    }
+                    return null;
+                  }}
+                />
               </PieChart>
             </ResponsiveContainer>
           </div>
 
           {/* 日別消費量 */}
           <div className="bg-white p-6 rounded-lg shadow-lg">
-            <h3 className="text-lg font-semibold mb-4">備蓄残予測</h3>
+            <h3 className="text-lg font-semibold mb-4">備蓄残目安</h3>
             <ResponsiveContainer width="100%" height={300}>
               <AreaChart data={dailyConsumptionData}>
                 <CartesianGrid strokeDasharray="3 3" />
