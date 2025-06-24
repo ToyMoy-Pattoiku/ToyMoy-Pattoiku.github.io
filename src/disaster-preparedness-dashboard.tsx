@@ -62,7 +62,7 @@ const DisasterPreparednessCalculator = () => {
   const recommendedFood = employeeCount * 3 * calculations.stockpileDays;
 
   // 1日当たり食料（1人1日3食計算で備蓄日数で割る）
-  const recommendedDailyFood = Math.ceil(recommendedFood / calculations.stockpileDays);
+  const recommendedDailyFood = Math.ceil(currentFood / calculations.stockpileDays);
 
   // 必要数量が変わったら現在数量も初期化
   React.useEffect(() => {
