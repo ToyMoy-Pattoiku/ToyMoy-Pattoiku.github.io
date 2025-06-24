@@ -248,7 +248,7 @@ const DisasterPreparednessCalculator = () => {
           <div className="bg-white p-6 rounded-lg shadow-lg">
             <h3 className="text-lg font-semibold mb-4">水の用途別分布</h3>
             <div className="w-full overflow-x-auto">
-              <div style={{ minWidth: 340 }}>
+              <div style={{ minWidth: 420 }}>
                 <ResponsiveContainer width="100%" height={300}>
                   <PieChart>
                     <Pie
@@ -256,7 +256,15 @@ const DisasterPreparednessCalculator = () => {
                       cx="50%"
                       cy="50%"
                       labelLine={false}
-                      label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                      label={({ name, percent }) => {
+                        // 長いラベルも折り返しやすくする
+                        return (
+                          <tspan>
+                            {name}
+                            <tspan x="0" dy="1.2em">{` ${(percent * 100).toFixed(0)}%`}</tspan>
+                          </tspan>
+                        );
+                      }}
                       outerRadius={80}
                       fill="#8884d8"
                       dataKey="value"
@@ -276,7 +284,7 @@ const DisasterPreparednessCalculator = () => {
                             fontWeight: 'bold'
                           };
                           return (
-                            <div className="custom-tooltip" style={{ background: '#fff', border: '1px solid #ccc', padding: 8, borderRadius: 6, minWidth: 180 }}>
+                            <div className="custom-tooltip" style={{ background: '#fff', border: '1px solid #ccc', padding: 8, borderRadius: 6, minWidth: 220 }}>
                               <span style={style}>
                                 {entry.name}：{entry.value}L
                               </span>
