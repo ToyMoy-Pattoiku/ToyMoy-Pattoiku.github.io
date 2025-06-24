@@ -254,6 +254,116 @@ const DisasterPreparednessCalculator = () => {
           </div>
         </div>
 
+        {/* 備蓄品目詳細（KPIカードの直後に移動） */}
+        <div className="bg-white p-6 rounded-lg shadow-lg mb-6">
+          <h3 className="text-lg font-semibold mb-4">備蓄品目詳細</h3>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="border-b">
+                  <th className="py-2 px-4 font-semibold">品目</th>
+                  <th className="py-2 px-4 font-semibold text-right">現在数量</th>
+                  <th className="py-2 px-4 font-semibold text-right">推奨数量</th>
+                  <th className="py-2 px-4 font-semibold">備考</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-b">
+                  <td className="py-2 px-4">飲料水</td>
+                  <td className="py-2 px-4 text-right">
+                    <input
+                      type="number"
+                      min={0}
+                      className="w-24 px-2 py-1 border border-gray-300 rounded text-right"
+                      value={currentWater}
+                      onChange={e => setCurrentWater(Number(e.target.value))}
+                    /> L
+                  </td>
+                  <td className="py-2 px-4 text-right">{recommendedDrinkingWater}L</td>
+                  <td className="py-2 px-4">1人1日3L計算</td>
+                </tr>
+                <tr className="border-b">
+                  <td className="py-2 px-4">生活用水（緊急用水含む）</td>
+                  <td className="py-2 px-4 text-right">
+                    <input
+                      type="number"
+                      min={0}
+                      className="w-24 px-2 py-1 border border-gray-300 rounded text-right"
+                      value={currentLifeWater}
+                      onChange={e => setCurrentLifeWater(Number(e.target.value))}
+                    /> L
+                  </td>
+                  <td className="py-2 px-4 text-right">
+                    {recommendedLifeWater}L
+                  </td>
+                  <td className="py-2 px-4">飲料水：生活用水=7:3</td>
+                </tr>
+                <tr className="border-b">
+                  <td className="py-2 px-4">非常食</td>
+                  <td className="py-2 px-4 text-right">
+                    <input
+                      type="number"
+                      min={0}
+                      className="w-24 px-2 py-1 border border-gray-300 rounded text-right"
+                      value={currentFood}
+                      onChange={e => setCurrentFood(Number(e.target.value))}
+                    /> 食
+                  </td>
+                  <td className="py-2 px-4 text-right">{recommendedFood}食</td>
+                  <td className="py-2 px-4">1人1日3食計算</td>
+                </tr>
+                <tr className="border-b">
+                  <td className="py-2 px-4">救急セット</td>
+                  <td className="py-2 px-4 text-right">
+                    <div className="flex items-center justify-end gap-1">
+                      <input
+                        type="number"
+                        min={0}
+                        className="w-24 px-2 py-1 border border-gray-300 rounded text-right"
+                        value={currentKits}
+                        onChange={e => setCurrentKits(Number(e.target.value))}
+                      />
+                      <span>セット</span>
+                    </div>
+                  </td>
+                  <td className="py-2 px-4 text-right">
+                    {calculations.emergencyKits}セット
+                  </td>
+                  <td className="py-2 px-4">10人に1セット</td>
+                </tr>
+                <tr className="border-b">
+                  <td className="py-2 px-4">懐中電灯</td>
+                  <td className="py-2 px-4 text-right">
+                    <input
+                      type="number"
+                      min={0}
+                      className="w-24 px-2 py-1 border border-gray-300 rounded text-right"
+                      value={currentLights}
+                      onChange={e => setCurrentLights(Number(e.target.value))}
+                    /> 個
+                  </td>
+                  <td className="py-2 px-4 text-right">{calculations.lights}個</td>
+                  <td className="py-2 px-4">20人に1個</td>
+                </tr>
+                <tr>
+                  <td className="py-2 px-4">毛布</td>
+                  <td className="py-2 px-4 text-right">
+                    <input
+                      type="number"
+                      min={0}
+                      className="w-24 px-2 py-1 border border-gray-300 rounded text-right"
+                      value={currentBlankets}
+                      onChange={e => setCurrentBlankets(Number(e.target.value))}
+                    /> 枚
+                  </td>
+                  <td className="py-2 px-4 text-right">{calculations.blankets}枚</td>
+                  <td className="py-2 px-4">2人に1枚</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
         {/* チャートセクション */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
           {/* 水の用途別分布 */}
@@ -375,116 +485,6 @@ const DisasterPreparednessCalculator = () => {
               <Bar dataKey="recommended" fill="#10b981" name="推奨数量" />
             </BarChart>
           </ResponsiveContainer>
-        </div>
-
-        {/* 詳細情報テーブル */}
-        <div className="bg-white p-6 rounded-lg shadow-lg mt-6">
-          <h3 className="text-lg font-semibold mb-4">備蓄品目詳細</h3>
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="border-b">
-                  <th className="py-2 px-4 font-semibold">品目</th>
-                  <th className="py-2 px-4 font-semibold text-right">現在数量</th>
-                  <th className="py-2 px-4 font-semibold text-right">推奨数量</th>
-                  <th className="py-2 px-4 font-semibold">備考</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="border-b">
-                  <td className="py-2 px-4">飲料水</td>
-                  <td className="py-2 px-4 text-right">
-                    <input
-                      type="number"
-                      min={0}
-                      className="w-24 px-2 py-1 border border-gray-300 rounded text-right"
-                      value={currentWater}
-                      onChange={e => setCurrentWater(Number(e.target.value))}
-                    /> L
-                  </td>
-                  <td className="py-2 px-4 text-right">{recommendedDrinkingWater}L</td>
-                  <td className="py-2 px-4">1人1日3L計算</td>
-                </tr>
-                <tr className="border-b">
-                  <td className="py-2 px-4">生活用水（緊急用水含む）</td>
-                  <td className="py-2 px-4 text-right">
-                    <input
-                      type="number"
-                      min={0}
-                      className="w-24 px-2 py-1 border border-gray-300 rounded text-right"
-                      value={currentLifeWater}
-                      onChange={e => setCurrentLifeWater(Number(e.target.value))}
-                    /> L
-                  </td>
-                  <td className="py-2 px-4 text-right">
-                    {recommendedLifeWater}L
-                  </td>
-                  <td className="py-2 px-4">飲料水：生活用水=7:3</td>
-                </tr>
-                <tr className="border-b">
-                  <td className="py-2 px-4">非常食</td>
-                  <td className="py-2 px-4 text-right">
-                    <input
-                      type="number"
-                      min={0}
-                      className="w-24 px-2 py-1 border border-gray-300 rounded text-right"
-                      value={currentFood}
-                      onChange={e => setCurrentFood(Number(e.target.value))}
-                    /> 食
-                  </td>
-                  <td className="py-2 px-4 text-right">{recommendedFood}食</td>
-                  <td className="py-2 px-4">1人1日3食計算</td>
-                </tr>
-                <tr className="border-b">
-                  <td className="py-2 px-4">救急セット</td>
-                  <td className="py-2 px-4 text-right">
-                    <div className="flex items-center justify-end gap-1">
-                      <input
-                        type="number"
-                        min={0}
-                        className="w-24 px-2 py-1 border border-gray-300 rounded text-right"
-                        value={currentKits}
-                        onChange={e => setCurrentKits(Number(e.target.value))}
-                      />
-                      <span>セット</span>
-                    </div>
-                  </td>
-                  <td className="py-2 px-4 text-right">
-                    {calculations.emergencyKits}セット
-                  </td>
-                  <td className="py-2 px-4">10人に1セット</td>
-                </tr>
-                <tr className="border-b">
-                  <td className="py-2 px-4">懐中電灯</td>
-                  <td className="py-2 px-4 text-right">
-                    <input
-                      type="number"
-                      min={0}
-                      className="w-24 px-2 py-1 border border-gray-300 rounded text-right"
-                      value={currentLights}
-                      onChange={e => setCurrentLights(Number(e.target.value))}
-                    /> 個
-                  </td>
-                  <td className="py-2 px-4 text-right">{calculations.lights}個</td>
-                  <td className="py-2 px-4">20人に1個</td>
-                </tr>
-                <tr>
-                  <td className="py-2 px-4">毛布</td>
-                  <td className="py-2 px-4 text-right">
-                    <input
-                      type="number"
-                      min={0}
-                      className="w-24 px-2 py-1 border border-gray-300 rounded text-right"
-                      value={currentBlankets}
-                      onChange={e => setCurrentBlankets(Number(e.target.value))}
-                    /> 枚
-                  </td>
-                  <td className="py-2 px-4 text-right">{calculations.blankets}枚</td>
-                  <td className="py-2 px-4">2人に1枚</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
         </div>
       </div>
     </div>
