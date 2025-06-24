@@ -90,8 +90,11 @@ const DisasterPreparednessCalculator = () => {
   // 備蓄量から日ごとに減っていくグラフデータ
   const dailyConsumptionData = Array.from({ length: calculations.stockpileDays + 1 }, (_, i) => {
     const day = i + 1;
-    const waterLeft = Math.max(calculations.totalWater - calculations.dailyWater * i, 0);
-    const foodLeft = Math.max(calculations.totalFood - calculations.dailyFood * i, 0);
+    // 初期値は現在数量（飲料水＋生活用水、非常食）を用いる
+    const initialWater = currentWater + currentLifeWater;
+    const initialFood = currentFood;
+    const waterLeft = Math.max(initialWater - calculations.dailyWater * i, 0);
+    const foodLeft = Math.max(initialFood - calculations.dailyFood * i, 0);
     return {
       day,
       waterLeft,
