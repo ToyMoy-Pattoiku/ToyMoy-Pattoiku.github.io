@@ -195,9 +195,9 @@ const DisasterPreparednessCalculator = () => {
               {statusContent}
             </span>
             <div className="mt-1 text-sm text-gray-500 text-center">
-              {statusContent === '〇' && <>飲料水と非常食の両方が推奨数量を満たしています</>}
-              {statusContent === '△' && <>飲料水または非常食のどちらかが推奨数量を満たしています</>}
-              {statusContent === '×' && <>飲料水も非常食も推奨数量を満たしていません</>}
+              {statusContent === '〇' && <>水と非常食の両方が推奨数量を満たしています</>}
+              {statusContent === '△' && <>水または非常食のどちらかが推奨数量を満たしています</>}
+              {statusContent === '×' && <>水も非常食も推奨数量を満たしていません</>}
             </div>
           </div>
         </div>
@@ -266,46 +266,49 @@ const DisasterPreparednessCalculator = () => {
           {/* 水の用途別分布 */}
           <div className="bg-white p-6 rounded-lg shadow-lg">
             <h3 className="text-lg font-semibold mb-4">水の用途別分布</h3>
-            <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
-                <Pie
-                  data={waterDistributionData}
-                  cx="50%"
-                  cy="50%"
-                  labelLine={false}
-                  label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                  outerRadius={80}
-                  fill="#8884d8"
-                  dataKey="value"
-                  startAngle={90}
-                  endAngle={-270}
-                >
-                  {waterDistributionData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip
-                  content={({ active, payload }) => {
-                    if (active && payload && payload.length) {
-                      const entry = payload[0].payload;
-                      // 色に合わせてフォント色を適用
-                      const style = {
-                        color: entry.color,
-                        fontWeight: 'bold'
-                      };
-                      return (
-                        <div className="custom-tooltip" style={{ background: '#fff', border: '1px solid #ccc', padding: 8, borderRadius: 6 }}>
-                          <span style={style}>
-                            {entry.name}：{entry.value}L
-                          </span>
-                        </div>
-                      );
-                    }
-                    return null;
-                  }}
-                />
-              </PieChart>
-            </ResponsiveContainer>
+            <div className="w-full overflow-x-auto">
+              <div style={{ minWidth: 340 }}>
+                <ResponsiveContainer width="100%" height={300}>
+                  <PieChart>
+                    <Pie
+                      data={waterDistributionData}
+                      cx="50%"
+                      cy="50%"
+                      labelLine={false}
+                      label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                      outerRadius={80}
+                      fill="#8884d8"
+                      dataKey="value"
+                      startAngle={90}
+                      endAngle={-270}
+                    >
+                      {waterDistributionData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <Tooltip
+                      content={({ active, payload }) => {
+                        if (active && payload && payload.length) {
+                          const entry = payload[0].payload;
+                          const style = {
+                            color: entry.color,
+                            fontWeight: 'bold'
+                          };
+                          return (
+                            <div className="custom-tooltip" style={{ background: '#fff', border: '1px solid #ccc', padding: 8, borderRadius: 6, minWidth: 180 }}>
+                              <span style={style}>
+                                {entry.name}：{entry.value}L
+                              </span>
+                            </div>
+                          );
+                        }
+                        return null;
+                      }}
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
           </div>
 
           {/* 日別消費量 */}
