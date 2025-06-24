@@ -101,12 +101,14 @@ const DisasterPreparednessCalculator = () => {
 
   // グラフ用データ（現在の数量を反映）
   const comparisonData = [
-    { category: '水（L）', current: currentWater, recommended: recommendedWater },
+    { category: '水（L）', current: totalCurrentWater, recommended: recommendedWater },
     { category: '食料（食）', current: currentFood, recommended: recommendedFood }
   ];
 
   // 判定ロジック（現在数量と推奨数量で判定）
-  const waterOk = currentWater >= recommendedWater;
+  // 水の現在数量は飲料水＋生活用水（緊急用水含む）の合算
+  const totalCurrentWater = currentWater + currentLifeWater;
+  const waterOk = totalCurrentWater >= recommendedWater;
   const foodOk = currentFood >= recommendedFood;
 
   let statusClass = '';
