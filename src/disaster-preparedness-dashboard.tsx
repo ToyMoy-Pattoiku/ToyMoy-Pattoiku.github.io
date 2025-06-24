@@ -61,8 +61,11 @@ const DisasterPreparednessCalculator = () => {
   // 推奨非常食（1人1日3食計算）
   const recommendedFood = employeeCount * 3 * calculations.stockpileDays;
 
-  // 1日当たり食料（1人1日3食計算で備蓄日数で割る）
-  const recommendedDailyFood = Math.ceil(currentFood / calculations.stockpileDays);
+  // 1日当たり食料（推奨数量で備蓄日数で割る。入力値が変わればcurrentFoodで再計算）
+  const recommendedDailyFood =
+    currentFood !== recommendedFood
+      ? Math.ceil(currentFood / calculations.stockpileDays)
+      : Math.ceil(recommendedFood / calculations.stockpileDays);
 
   // 1日当たり水量（推奨水量を備蓄日数で割る）
   const recommendedDailyWater = Math.ceil(currentWater + currentLifeWater) / calculations.stockpileDays > 0
@@ -268,15 +271,12 @@ const DisasterPreparednessCalculator = () => {
                       cx="50%"
                       cy="50%"
                       labelLine={false}
-                      label={({ name, percent }) => {
-                        // 長いラベルも折り返しやすくする
-                        return (
-                          <tspan>
-                            {name}
-                            <tspan x="0" dy="1.2em">{` ${(percent * 100).toFixed(0)}%`}</tspan>
-                          </tspan>
-                        );
-                      }}
+                      label={({ name, percent }) => (
+                        <tspan>
+                          {name}
+                          <tspan x="0" dy="1.2em">{` ${(percent * 100).toFixed(0)}%`}</tspan>
+                        </tspan>
+                      )}
                       outerRadius={80}
                       fill="#8884d8"
                       dataKey="value"
@@ -308,6 +308,26 @@ const DisasterPreparednessCalculator = () => {
                     />
                   </PieChart>
                 </ResponsiveContainer>
+                {/* 凡例を追加 */}
+                <div className="flex gap-6 justify-center mt-4 flex-wrap">
+                  {waterDistributionData.map((entry, idx) => (
+                    <div key={entry.name} className="flex items-center gap-2 min-w-[120px]">
+                      <span
+                        style={{
+                          display: 'inline-block',
+                          width: 16,
+                          height: 16,
+                          backgroundColor: entry.color,
+                          borderRadius: 4,
+                          marginRight: 6,
+                        }}
+                      />
+                      <span className="text-sm" style={{ color: entry.color, fontWeight: 'bold' }}>
+                        {entry.name}
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
