@@ -75,7 +75,8 @@ const DisasterPreparednessCalculator = () => {
     // 初期値は現在数量（飲料水＋生活用水、非常食）を用いる
     const initialWater = currentWater + currentLifeWater;
     const initialFood = currentFood;
-    const waterLeft = Math.max(initialWater - calculations.dailyWater * i, 0);
+    // 水の減少量は1日当たり水量（recommendedDailyWater）で計算
+    const waterLeft = Math.max(initialWater - recommendedDailyWater * i, 0);
     // 1日当たり食料の計算し直しを反映
     const foodLeft = Math.max(initialFood - recommendedDailyFood * i, 0);
     return {
@@ -319,7 +320,14 @@ const DisasterPreparednessCalculator = () => {
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="day" />
                 <YAxis />
-                <Tooltip />
+                <Tooltip
+                  formatter={(value: number, name: string) => {
+                    if (name === "waterLeft") return [`${value}L`, "残り水量"];
+                    if (name === "foodLeft") return [`${value}食`, "残り食料"];
+                    return [value, name];
+                  }}
+                  labelFormatter={(label) => `${label}日目`}
+                />
                 <Area type="monotone" dataKey="waterLeft" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.2} name="残り水量（L）" />
                 <Area type="monotone" dataKey="foodLeft" stroke="#ef4444" fill="#ef4444" fillOpacity={0.2} name="残り食料（食）" />
                 <Line type="monotone" dataKey="waterLeft" stroke="#3b82f6" name="残り水量（L）" dot={false} />
