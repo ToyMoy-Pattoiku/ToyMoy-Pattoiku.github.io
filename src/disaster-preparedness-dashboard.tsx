@@ -64,10 +64,8 @@ const DisasterPreparednessCalculator = () => {
   // 1日当たり食料（必要食料（総計）を日数で割る）
   const recommendedDailyFood = Math.ceil(recommendedFood / calculations.stockpileDays);
 
-  // 1日当たり水量（推奨水量を備蓄日数で割る）
-  const recommendedDailyWater = Math.ceil(currentWater + currentLifeWater) / calculations.stockpileDays > 0
-    ? Math.ceil((currentWater + currentLifeWater) / calculations.stockpileDays)
-    : Math.ceil(recommendedWater / calculations.stockpileDays);
+  // 1日当たり水量（必要水量（総計）を備蓄必要日数で割る）
+  const recommendedDailyWater = Math.ceil(recommendedWater / calculations.stockpileDays);
 
   // 備蓄量から日ごとに減っていくグラフデータ
   const dailyConsumptionData = Array.from({ length: calculations.stockpileDays + 1 }, (_, i) => {
