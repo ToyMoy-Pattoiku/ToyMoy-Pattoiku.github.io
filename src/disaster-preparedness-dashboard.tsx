@@ -253,7 +253,7 @@ const DisasterPreparednessCalculator = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">1日当たり食料</p>
-                <p className="text-2xl font-bold text-pink-600">{calculations.dailyFood}食</p>
+                <p className="text-2xl font-bold text-pink-600">{recommendedDailyFood}食</p>
               </div>
               <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-pink-100">
                 <svg className="w-6 h-6 text-pink-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
