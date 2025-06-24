@@ -63,11 +63,18 @@ const DisasterPreparednessCalculator = () => {
     setCurrentLifeWater(recommendedLifeWater);
   }, [calculations.totalWater, calculations.totalFood, calculations.emergencyKits, calculations.lights, calculations.blankets, recommendedLifeWater]);
   
-  // チャート用データ
+  // 推奨数量（グラフ・表で共通で使う）
+  const recommendedDrinkingWater = employeeCount * 3 * calculations.stockpileDays;
+  const recommendedWater = Math.ceil(recommendedDrinkingWater / 0.7);
+  const recommendedLifeWater = recommendedWater - recommendedDrinkingWater;
+
+  // 1日当たり水量（推奨水量を備蓄日数で割る）
+  const recommendedDailyWater = Math.ceil(recommendedWater / calculations.stockpileDays);
+
+  // 水の用途別分布（推奨数量ベースで7:3で分割）
   const waterDistributionData = [
-    { name: '飲料水', value: calculations.totalWater * 0.7, color: '#3b82f6' },
-    { name: '生活用水', value: calculations.totalWater * 0.2, color: '#06b6d4' },
-    { name: '緊急用水', value: calculations.totalWater * 0.1, color: '#0ea5e9' }
+    { name: '飲料水', value: recommendedDrinkingWater, color: '#3b82f6' },
+    { name: '生活用水（緊急用水含む）', value: recommendedLifeWater, color: '#06b6d4' }
   ];
 
   // 備蓄量から日ごとに減っていくグラフデータ
@@ -81,12 +88,6 @@ const DisasterPreparednessCalculator = () => {
       foodLeft
     };
   });
-
-  // 推奨数量（グラフ・表で共通で使う）
-  const recommendedDrinkingWater = employeeCount * 3 * calculations.stockpileDays;
-  // 推奨水量全体は飲料水:生活用水=7:3の比率で、飲料水を基準に計算
-  const recommendedWater = Math.ceil(recommendedDrinkingWater / 0.7);
-  const recommendedLifeWater = recommendedWater - recommendedDrinkingWater;
 
   // グラフ用データ（現在の数量を反映）
   const comparisonData = [
@@ -205,7 +206,7 @@ const DisasterPreparednessCalculator = () => {
               <div>
                 <p className="text-sm font-medium text-gray-600">必要水量（総計）</p>
                 <p className="text-2xl font-bold text-cyan-600">
-                  {recommendedDrinkingWater + recommendedLifeWater}L
+                  {recommendedWater}L
                 </p>
               </div>
               <Droplets className="text-cyan-500 w-8 h-8" />
@@ -215,7 +216,7 @@ const DisasterPreparednessCalculator = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">1日当たり水量</p>
-                <p className="text-2xl font-bold text-green-600">{calculations.dailyWater}L</p>
+                <p className="text-2xl font-bold text-green-600">{recommendedDailyWater}L</p>
               </div>
               <Droplets className="text-green-500 w-8 h-8" />
             </div>
